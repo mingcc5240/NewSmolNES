@@ -54,12 +54,6 @@ Private m_GameTitle As String
 Private m_MapperNum As Long
 
 
-Private Sub Form_Load()
-    
-    
-   
-End Sub
-
 ' ========================================================
 ' 60 FPS 고정 에뮬레이션 메인 루프
 ' ========================================================
@@ -90,10 +84,15 @@ Private Sub RunGameLoop()
             ' (내부에서 화면 연산과 함께 735개의 44.1kHz 사운드 샘플이 waveOut으로 스트리밍됨)
             NES_RunFrame
 
-            CopyMemory m_pBits, m_pNESBuffer, 245760
+            'CopyMemory m_pBits, m_pNESBuffer, 245760
+            CopyMemory m_pBits, m_pNESBuffer, 983040
+            
+            ' 3. StretchBlt로 소스(512x480) -> 대상(768x720)으로 3배 확대 출력
             StretchBlt picScreen.hdc, 0, 0, NES_WIDTH * SCALE_FACTOR, NES_HEIGHT * SCALE_FACTOR, _
-                       m_hMemDC, 0, 0, NES_WIDTH, NES_HEIGHT, SRCCOPY
-
+                       m_hMemDC, 0, 0, 512, 480, SRCCOPY
+              
+            'BitBlt picScreen.hdc, 0, 0, 512, 480, m_hMemDC, 0, 0, SRCCOPY
+            
             ' FPS 카운트 및 표시
             frameCounter = frameCounter + 1
             If (currentTime - fpsTimer) >= 1000 Then
@@ -195,8 +194,8 @@ Private Sub mLoad_Click()
     ' 3. 원본 256x240 크기의 DIB Section 생성 (Top-down)
     With bi.bmiHeader
         .biSize = Len(bi.bmiHeader)
-        .biWidth = NES_WIDTH
-        .biHeight = -NES_HEIGHT
+        .biWidth = 512
+        .biHeight = -480
         .biPlanes = 1
         .biBitCount = 32
         .biCompression = 0
