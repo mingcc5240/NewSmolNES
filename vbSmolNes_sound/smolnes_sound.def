@@ -1,0 +1,9 @@
+LIBRARY smolnes_sound.dll
+
+EXPORTS
+_NES_CloseAudio@0
+_NES_GetBuffer@0
+_NES_InitAudio@0
+_NES_LoadROM@4
+_NES_RunFrame@0
+_NES_SetInput@4
