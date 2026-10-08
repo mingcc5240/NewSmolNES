@@ -1,0 +1,7 @@
+LIBRARY smolnes.dll
+
+EXPORTS
+_NES_GetBuffer@0
+_NES_LoadROM@4
+_NES_RunFrame@0
+_NES_SetInput@4
